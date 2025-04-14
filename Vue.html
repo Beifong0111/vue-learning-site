@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js 学习网站</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .lesson {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .lesson h2 {
+      margin: 0;
+      cursor: pointer;
+      font-size: 18px;
+      color: #007BFF;
+    }
+
+    .lesson-content {
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    code {
+      background-color: #f3f3f3;
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: #d63384;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Vue.js 学习网站</h1>
+    <div class="lesson" v-for="(lesson, index) in lessons" :key="index">
+      <h2 @click="toggle(index)">{{ lesson.title }}</h2>
+      <div class="lesson-content" v-if="lesson.visible" v-html="lesson.content"></div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          lessons: [
+            // ...前面 1-9 课略...
+            {
+              title: "第1课：Vue 简介",
+              content: `
+    <p>Vue 是一个用于构建用户界面的<strong>渐进式 JavaScript 框架</strong>。</p>
+    <p>核心特性包括：响应式数据绑定、组件化开发。</p>
+  `,
+              visible: false
+            },
+            {
+              title: "第2课：创建 Vue 应用",
+              content: `
+    <p>通过 <code style='color:green;'>createApp()</code> 创建应用：</p>
+    <pre><code style='color:green;'>const app = Vue.createApp({
+  data() {
+    return { message: 'Hello Vue!' }
+  }
+})
+app.mount('#app')</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第3课：模板语法",
+              content: `
+    <p>使用 <code style='color:blue;'>{{ }}</code> 来绑定变量：</p>
+    <pre><code style='color:blue;'>{{ message }}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第4课：绑定属性",
+              content: `
+    <p>使用 <code style='color:orange;'>v-bind</code> 动态绑定 HTML 属性：</p>
+    <pre><code style='color:orange;'><img v-bind:src=\"imageUrl\"></code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第5课：事件处理",
+              content: `
+    <p>使用 <code style='color:red;'>v-on</code> 或 <code style='color:red;'>@</code> 来监听事件：</p>
+    <pre><code style='color:red;'><button v-on:click=\"doSomething\">Click me</button></code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第6课：条件渲染",
+              content: `
+    <p>使用 <code style='color:purple;'>v-if</code>、<code style='color:purple;'>v-else</code> 控制 DOM 显示：</p>
+    <pre><code style='color:purple;'><p v-if=\"seen\">现在你看到我了</p></code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第7课：列表渲染",
+              content: `
+    <p>使用 <code style='color:brown;'>v-for</code> 渲染数组或对象：</p>
+    <pre><code style='color:brown;'><li v-for=\"item in items\">{{ item.text }}</li></code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第8课：双向绑定",
+              content: `
+    <p>使用 <code style='color:green;'>v-model</code> 实现输入与数据的同步：</p>
+    <pre><code style='color:green;'><input v-model=\"message\"></code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第9课：计算属性",
+              content: `
+    <p><code style='color:blue;'>computed</code> 属性根据已有数据自动计算：</p>
+    <pre><code style='color:blue;'>computed: {
+  reversedMessage() {
+    return this.message.split('').reverse().join('')
+  }
+}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第10课：生命周期钩子",
+              content: `
+                <p>Vue 提供多个生命周期钩子（如 <code style='color:blue;'>mounted</code>, <code style='color:blue;'>updated</code>, <code style='color:blue;'>unmounted</code>），用于在组件的不同阶段执行代码：</p>
+                <pre><code style='color:blue;'>mounted() {
+  console.log('组件已挂载')
+}</code></pre>
+              `,
+              visible: false
+            },
+            {
+              title: "第11课：指令（自定义指令）",
+              content: `
+                <p>Vue 允许你注册自定义指令来扩展 HTML：</p>
+                <pre><code style='color:green;'>app.directive('focus', {
+                  mounted(el) {
+                    el.focus()
+                  }
+                })</code></pre>
+                              `,
+              visible: false
+            },
+            {
+              title: "第12课：组件之间的通信",
+              content: `
+                <p>组件通信方法：</p>
+                <ul>
+                  <li><span style='color:orange;'>父传子</span>：使用 <code>props</code></li>
+                  <li><span style='color:orange;'>子传父</span>：使用 <code>emit</code></li>
+                  <li><span style='color:orange;'>兄弟组件通信</span>：使用状态管理或 event bus</li>
+                </ul>
+              `,
+              visible: false
+            },
+            {
+              title: "第13课：Vue Router 路由",
+              content: `
+                <p>Vue Router 是 Vue 官方提供的前端路由解决方案：</p>
+                <pre><code style='color:darkorange;'>const routes = [
+  { path: '/home', component: Home },
+  { path: '/about', component: About }
+]
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(),
+  routes
+})</code></pre>
+              `,
+              visible: false
+            },
+            {
+              title: "第14课：Vuex 状态管理",
+              content: `
+                <p>Vuex 是 Vue 的集中式状态管理库，用于跨组件共享状态：</p>
+                <pre><code style='color:red;'>const store = createStore({
+  state() {
+    return { count: 0 }
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    }
+  }
+})</code></pre>
+              `,
+              visible: false
+            },
+            {
+              title: "第15课：watch 监听器",
+              content: `
+    <p>使用 <code style='color:blue;'>watch</code> 监听数据变化并执行操作：</p>
+    <pre><code style='color:blue;'>watch: {
+  count(newVal, oldVal) {
+    console.log(\`count 从 \${oldVal} 变为 \${newVal}\`)
+  }
+}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第16课：表单控件绑定",
+              content: `
+    <p>使用 <code style='color:green;'>v-model</code> 绑定各种表单元素：</p>
+    <ul>
+      <li>文本框：<code style='color:green;'>&lt;input v-model=\"text\"&gt;</code></li>
+      <li>复选框：<code style='color:green;'>&lt;input type=\"checkbox\" v-model=\"checked\"&gt;</code></li>
+      <li>单选按钮：<code style='color:green;'>&lt;input type=\"radio\" v-model=\"picked\" value=\"A\"&gt;</code></li>
+    </ul>
+  `,
+              visible: false
+            },
+            {
+              title: "第17课：slot 插槽",
+              content: `
+    <p><code style='color:purple;'>slot</code> 用于在组件中插入自定义内容：</p>
+    <pre><code style='color:purple;'>&lt;MyComponent&gt;
+  &lt;template v-slot:default&gt;
+    自定义内容
+  &lt;/template&gt;
+&lt;/MyComponent&gt;</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第18课：动态组件",
+              content: `
+    <p>使用 <code style='color:orange;'>component</code> 标签可以在多个组件间动态切换：</p>
+    <pre><code style='color:orange;'>&lt;component :is=\"currentTab\"&gt;&lt;/component&gt;</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第19课：过渡动画",
+              content: `
+    <p>Vue 提供 <code style='color:red;'>&lt;transition&gt;</code> 元素用于添加动画效果：</p>
+    <pre><code style='color:red;'>&lt;transition name=\"fade\"&gt;
+  &lt;p v-if=\"show\"&gt;你好&lt;/p&gt;
+&lt;/transition&gt;</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第20课：组合式 API（Composition API）简介",
+              content: `
+    <p><code style='color:blue;'>setup()</code> 是组合式 API 的入口：</p>
+    <pre><code style='color:blue;'>import { ref } from 'vue'
+
+export default {
+  setup() {
+    const count = ref(0)
+    return { count }
+  }
+}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第21课：ref 和 reactive",
+              content: `
+    <p><code style='color:green;'>ref</code> 用于基本类型，<code style='color:orange;'>reactive</code> 用于对象：</p>
+    <pre><code style='color:green;'>const num = ref(0)</code></pre>
+    <pre><code style='color:orange;'>const state = reactive({ count: 0 })</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第22课：computed 计算属性（组合式 API）",
+              content: `
+    <p>组合式中使用 <code style='color:blue;'>computed</code>：</p>
+    <pre><code style='color:blue;'>const reversed = computed(() =&gt; text.value.split('').reverse().join(''))</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第23课：watchEffect 和 watch 的区别",
+              content: `
+    <p><code style='color:purple;'>watchEffect</code> 自动依赖收集，适合简单逻辑。</p>
+    <pre><code style='color:purple;'>watchEffect(() =&gt; {
+  console.log(count.value)
+})</code></pre>
+    <p><code style='color:red;'>watch</code> 更适合监听具体的 ref 或 reactive：</p>
+    <pre><code style='color:red;'>watch(count, (newVal, oldVal) =&gt; {
+  console.log(newVal, oldVal)
+})</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第24课：自定义 Hook（可复用逻辑）",
+              content: `
+    <p>Vue 中可以将逻辑封装为 <code style='color:teal;'>composables</code>：</p>
+    <pre><code style='color:teal;'>export function useCounter() {
+  const count = ref(0)
+  function increment() {
+    count.value++
+  }
+  return { count, increment }
+}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第25课：组件注册方式",
+              content: `
+    <p>Vue 支持 <code style='color:blue;'>全局注册</code> 和 <code style='color:green;'>局部注册</code>：</p>
+    <pre><code style='color:blue;'>app.component('MyComponent', MyComponent)</code></pre>
+    <pre><code style='color:green;'>components: {
+  MyComponent
+}</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第26课：异步组件",
+              content: `
+    <p>Vue 支持 <code style='color:purple;'>defineAsyncComponent</code> 加载异步组件：</p>
+    <pre><code style='color:purple;'>import { defineAsyncComponent } from 'vue'
+
+const AsyncComp = defineAsyncComponent(() =&gt;
+  import('./components/HeavyComp.vue')
+)</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第27课：依赖注入 provide / inject",
+              content: `
+    <p><code style='color:blue;'>provide</code> 由父组件提供，<code style='color:green;'>inject</code> 由子组件接收：</p>
+    <pre><code style='color:blue;'>provide('message', 'hello')</code></pre>
+    <pre><code style='color:green;'>inject('message')</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第28课：v-bind 的高级用法",
+              content: `
+    <p><code style='color:orange;'>v-bind</code> 可以批量绑定属性：</p>
+    <pre><code style='color:orange;'>&lt;component v-bind=\"attrs\" /&gt;</code></pre>
+    <p>也可以绑定 style 与 class：</p>
+    <pre><code style='color:orange;'>&lt;div :style=\"{ color: 'red' }\"&gt;&lt;/div&gt;</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第29课：事件修饰符",
+              content: `
+    <p>常用修饰符包括：</p>
+    <ul>
+      <li><code style='color:red;'>.stop</code>：阻止事件冒泡</li>
+      <li><code style='color:red;'>.prevent</code>：阻止默认行为</li>
+      <li><code style='color:red;'>.capture</code>：使用捕获模式</li>
+      <li><code style='color:red;'>.once</code>：只触发一次</li>
+    </ul>
+    <pre><code style='color:red;'>&lt;button @click.stop.prevent=&quot;handleClick&quot;&gt;点我&lt;/button&gt;</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第30课：表单输入绑定 v-model 的多种用法",
+              content: `
+    <p><code style='color:blue;'>v-model</code> 可以绑定不同类型的表单控件：</p>
+    <ul>
+      <li><code style='color:blue;'>&lt;input v-model=&quot;text&quot;&gt;</code> 文本框</li>
+      <li><code style='color:green;'>&lt;textarea v-model=&quot;desc&quot;&gt;</code> 文本区域</li>
+      <li><code style='color:orange;'>&lt;select v-model=&quot;option&quot;&gt;</code> 下拉菜单</li>
+      <li><code style='color:purple;'>&lt;input type=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;</code> 复选框</li>
+    </ul>
+    <pre><code style='color:blue;'>const text = ref('')
+const desc = ref('')
+const option = ref('')
+const checked = ref(false)</code></pre>
+  `,
+              visible: false
+            },
+            {
+              title: "第31课：构建和部署 Vue 项目",
+              content: `
+    <p>使用 <code style='color:green;'>Vite</code> 快速搭建 Vue 项目：</p>
+    <pre><code style='color:green;'>npm create vite@latest vue-app --template vue</code></pre>
+    <p>进入目录后安装依赖并启动开发环境：</p>
+    <pre><code style='color:blue;'>cd vue-app
+npm install
+npm run dev</code></pre>
+    <p>构建生产版本：</p>
+    <pre><code style='color:orange;'>npm run build</code></pre>
+    <p>可通过 GitHub Pages 或 Netlify 部署 <code style='color:red;'>dist</code> 目录中的内容。</p>
+  `,
+              visible: false
+            }
+
+
+
+
+          ]
+        }
+      },
+      methods: {
+        toggle(index) {
+          this.lessons[index].visible = !this.lessons[index].visible;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>
